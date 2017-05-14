@@ -80,7 +80,7 @@ public class SubjectControl {
         });
     }
 
-    public void run(String window) {
+    public void run() {
         ws.setVisible(true);
     }
 

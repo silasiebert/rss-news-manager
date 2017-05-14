@@ -27,7 +27,8 @@ public class WindowControl {
         window.configurarFeed.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                FeedControl fc = new FeedControl();
+                fc.run();
             }
         });
         window.configurarHorarios.addActionListener(new ActionListener() {
@@ -40,7 +41,7 @@ public class WindowControl {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SubjectControl sc = new SubjectControl();
-                sc.run("list");
+                sc.run();
             }
         });
         window.consultarNoticias.addActionListener(new ActionListener() {
