@@ -40,7 +40,7 @@ public class SQLiteJDBC {
                     + "	date timestamp,\n"
                     + "	id integer PRIMARY KEY AUTOINCREMENT\n"
                     + ");\n"
-                    + "CREATE TABLE IF NOT EXISTS site ( \n"
+                    + "CREATE TABLE IF NOT EXISTS feed ( \n"
                     + "	name varchar(50),\n"
                     + "	url varchar(50),\n"
                     + "	id integer PRIMARY KEY AUTOINCREMENT\n"
