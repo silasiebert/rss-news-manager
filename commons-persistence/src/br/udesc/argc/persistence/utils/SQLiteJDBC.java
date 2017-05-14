@@ -37,7 +37,7 @@ public class SQLiteJDBC {
                     + "	title varchar(50)\n"
                     + ");\n"
                     + "CREATE TABLE IF NOT EXISTS schedule ( \n"
-                    + "	date timestamp,\n"
+                    + "	date text,\n"
                     + "	id integer PRIMARY KEY AUTOINCREMENT\n"
                     + ");\n"
                     + "CREATE TABLE IF NOT EXISTS feed ( \n"

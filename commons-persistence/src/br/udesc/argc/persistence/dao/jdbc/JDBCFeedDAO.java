@@ -5,7 +5,6 @@
  */
 package br.udesc.argc.persistence.dao.jdbc;
 
-import br.udesc.argc.persistence.model.Feed;
 import java.util.List;
 import br.udesc.argc.persistence.dao.core.FeedDAO;
 import br.udesc.argc.persistence.model.Feed;
@@ -14,7 +13,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *
@@ -117,8 +115,8 @@ public class JDBCFeedDAO implements FeedDAO {
             c = SQLiteJDBC.getConnection();
             stmt = c.createStatement();
             String sql = "UPDATE FEED SET "
-                    + "name = '" + object.getName()+ "',"
-                    + "url = '" + object.getUrl()+ "'"
+                    + "name = '" + object.getName() + "',"
+                    + "url = '" + object.getUrl() + "'"
                     + "WHERE id = " + object.getId() + ";";
             return stmt.executeUpdate(sql) > 0;
         } catch (Exception e) {

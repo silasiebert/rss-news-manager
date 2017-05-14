@@ -6,15 +6,12 @@
 package br.udesc.argc.persistence.dao.jdbc;
 
 import br.udesc.argc.persistence.dao.core.NewsDAO;
-import br.udesc.argc.persistence.model.Feed;
-import br.udesc.argc.persistence.model.News;
 import br.udesc.argc.persistence.model.News;
 import br.udesc.argc.persistence.utils.SQLiteJDBC;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
