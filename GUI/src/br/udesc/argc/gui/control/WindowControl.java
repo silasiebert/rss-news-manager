@@ -34,6 +34,8 @@ public class WindowControl {
         window.configurarHorarios.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                SchedulerControl sc = new SchedulerControl();
+                sc.run();
                 
             }
         });
@@ -47,6 +49,8 @@ public class WindowControl {
         window.consultarNoticias.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                NewsControl nc = new NewsControl();
+                nc.run();
                 
             }
         });

@@ -6,6 +6,8 @@
 package br.udesc.argc.gui;
 
 import br.udesc.argc.gui.control.WindowControl;
+import br.udesc.argc.persistence.dao.core.FactoryDAO;
+import br.udesc.argc.persistence.model.News;
 
 /**
  *
@@ -16,6 +18,7 @@ public class GUI {
     public static void main(String[] args) {
         WindowControl wc = new WindowControl();
         wc.run();
+       
     }
     
 }
