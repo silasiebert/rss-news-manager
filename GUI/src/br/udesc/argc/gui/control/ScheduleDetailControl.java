@@ -5,31 +5,40 @@
  */
 package br.udesc.argc.gui.control;
 
-import br.udesc.argc.gui.view.WindowDetailsSubject;
+import br.udesc.argc.gui.view.WindowDetailsScheduler;
 import br.udesc.argc.persistence.dao.core.FactoryDAO;
-import br.udesc.argc.persistence.dao.core.SubjectDAO;
-import br.udesc.argc.persistence.model.Subject;
+import br.udesc.argc.persistence.dao.core.ScheduleDAO;
+import br.udesc.argc.persistence.model.Schedule;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
 
 /**
  *
  * @author gabrielnaoto
  */
-public class SubjectDetailControl {
+public class ScheduleDetailControl {
 
-    private WindowDetailsSubject wds;
-    private SubjectDAO dao;
-    private Subject selected;
+    private WindowDetailsScheduler wds;
+    private ScheduleDAO dao;
+    private Schedule selected;
 
-    public SubjectDetailControl() {
-        wds = new WindowDetailsSubject();
-        dao = FactoryDAO.getPersistence().getSubjectDAO();
+    public ScheduleDetailControl() {
+        wds = new WindowDetailsScheduler();
+        dao = FactoryDAO.getPersistence().getScheduleDAO();
         init();
     }
 
     private void init() {
+        System.out.println("init");
+        wds.timeSpinner.setModel(new SpinnerDateModel());
+        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(wds.timeSpinner, "HH:mm");
+        wds.timeSpinner.setEditor(timeEditor);
+
         wds.buttonClear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -39,27 +48,23 @@ public class SubjectDetailControl {
         wds.buttonSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (filled()) {
-                    if (selected == null) {
-                        dao.insert(getta());
-                        JOptionPane.showMessageDialog(wds, "Successfully inserted!");
+                if (selected == null) {
+                    dao.insert(getta());
+                    JOptionPane.showMessageDialog(wds, "Successfully inserted!");
+                    wds.setVisible(false);
+                } else {
+                    if (dao.update(getta())) {
+                        JOptionPane.showMessageDialog(wds, "Successfully updated!");
                         wds.setVisible(false);
                     } else {
-                        if (dao.update(getta())) {
-                            JOptionPane.showMessageDialog(wds, "Successfully updated!");
-                            wds.setVisible(false);
-                        } else {
-                            JOptionPane.showMessageDialog(wds, "Error updating!");
-                        }
+                        JOptionPane.showMessageDialog(wds, "Error updating!");
                     }
-                } else {
-                    JOptionPane.showMessageDialog(wds, "Please fill all the fields.");
                 }
             }
         });
     }
 
-    public void run(Subject s) {
+    public void run(Schedule s) {
         if (s == null) {
             clear();
             wds.buttonClear.setEnabled(true);
@@ -79,26 +84,22 @@ public class SubjectDetailControl {
 
     }
 
-    public Subject getta() throws NumberFormatException {
+    public Schedule getta() throws NumberFormatException {
         int id = Integer.parseInt(wds.fieldId.getText());
-        String subject = wds.fieldSubject.getText();
-        Subject object = new Subject();
+        Date d = (Date) wds.timeSpinner.getValue();
+        Schedule object = new Schedule();
         object.setId(id);
-        object.setSubject(subject);
+        object.setDate(d);
         return object;
     }
 
-    public void setta(Subject object) {
+    public void setta(Schedule object) {
         if (object == null) {
             wds.fieldId.setText("");
-            wds.fieldSubject.setText("");
         } else {
             wds.fieldId.setText(Integer.toString(object.getId()));
-            wds.fieldSubject.setText(object.getSubject());
+            wds.timeSpinner.setValue(object.getDate());
         }
     }
-    
-    public boolean filled(){
-        return wds.fieldSubject.getText().trim().length() > 0;
-    }
+
 }

@@ -11,6 +11,8 @@ import br.udesc.argc.persistence.utils.SQLiteJDBC;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,8 +30,10 @@ public class JDBCScheduleDAO implements ScheduleDAO {
         try {
             c = SQLiteJDBC.getConnection();
             stmt = c.createStatement();
-            String sql = "INSERT INTO SCHEDULE (date) "
-                    + "VALUES (" + object.getDate() + ");";
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            String sql = "INSERT INTO schedule (date) "
+                    + "VALUES ('" + sdf.format(object.getDate()) + "');";
+            System.out.println(sql);
             stmt.executeUpdate(sql);
             stmt.close();
 
@@ -46,7 +50,7 @@ public class JDBCScheduleDAO implements ScheduleDAO {
         try {
             c = SQLiteJDBC.getConnection();
             stmt = c.createStatement();
-            return stmt.executeUpdate("DELETE FROM SCHEDULE WHERE id = " + id + ";") > 0;
+            return stmt.executeUpdate("DELETE FROM schedule WHERE id = " + id + ";") > 0;
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             return false;
@@ -60,12 +64,13 @@ public class JDBCScheduleDAO implements ScheduleDAO {
         try {
             c = SQLiteJDBC.getConnection();
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM SCHEDULE WHERE id = " + id + ";");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM schedule WHERE id = " + id + ";");
             Schedule s = null;
             while (rs.next()) {
                 int i = rs.getInt("id");
-                Date date = rs.getDate("date");
                 s = new Schedule();
+                DateFormat df = new SimpleDateFormat("HH:mm");
+                Date date = df.parse(rs.getString("date"));
                 s.setId(i);
                 s.setDate(date);
             }
@@ -89,7 +94,8 @@ public class JDBCScheduleDAO implements ScheduleDAO {
             List<Schedule> schedules = new ArrayList<>();
             while (rs.next()) {
                 int id = rs.getInt("id");
-                Date date = rs.getDate("date");
+                DateFormat df = new SimpleDateFormat("HH:mm");
+                Date date = df.parse(rs.getString("date"));
                 Schedule s = new Schedule();
                 s.setId(id);
                 s.setDate(date);
@@ -111,8 +117,9 @@ public class JDBCScheduleDAO implements ScheduleDAO {
         try {
             c = SQLiteJDBC.getConnection();
             stmt = c.createStatement();
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             String sql = "UPDATE SCHEDULE SET "
-                    + "subject = '" + object.getDate() + "'"
+                    + "date = '" + sdf.format(object.getDate()) + "'"
                     + "WHERE id = " + object.getId() + ";";
             return stmt.executeUpdate(sql) > 0;
         } catch (Exception e) {
@@ -120,5 +127,4 @@ public class JDBCScheduleDAO implements ScheduleDAO {
             return false;
         }
     }
-
 }

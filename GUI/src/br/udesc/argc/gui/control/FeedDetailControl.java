@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  * @author gabrielnaoto
  */
 public class FeedDetailControl {
-    
+
     private WindowDetailsFeed wdf;
     private FeedDAO dao;
     private Feed selected;
@@ -39,17 +39,21 @@ public class FeedDetailControl {
         wdf.buttonSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (selected == null) {
-                    dao.insert(getta());
-                    JOptionPane.showMessageDialog(wdf, "Successfully inserted!");
-                    wdf.setVisible(false);
-                } else {
-                    if (dao.update(getta())) {
-                        JOptionPane.showMessageDialog(wdf, "Successfully updated!");
+                if (filled()) {
+                    if (selected == null) {
+                        dao.insert(getta());
+                        JOptionPane.showMessageDialog(wdf, "Successfully inserted!");
                         wdf.setVisible(false);
                     } else {
-                        JOptionPane.showMessageDialog(wdf, "Error updating!");
+                        if (dao.update(getta())) {
+                            JOptionPane.showMessageDialog(wdf, "Successfully updated!");
+                            wdf.setVisible(false);
+                        } else {
+                            JOptionPane.showMessageDialog(wdf, "Error updating!");
+                        }
                     }
+                } else {
+                    JOptionPane.showMessageDialog(wdf, "Please fill all the fields.");
                 }
             }
         });
@@ -96,7 +100,11 @@ public class FeedDetailControl {
             wdf.fieldName.setText(object.getName());
             wdf.fieldUrl.setText(object.getUrl());
         }
-        
+
     }
-    
+
+    public boolean filled() {
+        return wdf.fieldName.getText().trim().length() > 0 && wdf.fieldUrl.getText().trim().length() > 0;
+    }
+
 }

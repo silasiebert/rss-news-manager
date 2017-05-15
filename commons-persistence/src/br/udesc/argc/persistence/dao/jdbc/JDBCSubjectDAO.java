@@ -6,7 +6,6 @@
 package br.udesc.argc.persistence.dao.jdbc;
 
 import br.udesc.argc.persistence.dao.core.SubjectDAO;
-import br.udesc.argc.persistence.model.Feed;
 import br.udesc.argc.persistence.model.Subject;
 import br.udesc.argc.persistence.utils.SQLiteJDBC;
 import java.sql.Connection;
