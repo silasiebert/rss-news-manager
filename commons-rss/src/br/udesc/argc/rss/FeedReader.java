@@ -5,10 +5,12 @@
  */
 package br.udesc.argc.rss;
 
+import br.udesc.argc.persistence.dao.core.NewsDAO;
+import br.udesc.argc.persistence.dao.core.SubjectDAO;
 import br.udesc.argc.persistence.model.News;
+import br.udesc.argc.persistence.model.Subject;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
-import com.rometools.rome.feed.synd.SyndLink;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
@@ -27,14 +29,13 @@ import java.util.logging.Logger;
 public class FeedReader {
 
     public FeedReader() throws MalformedURLException, IOException, IllegalArgumentException, FeedException {
-        //Falta implementar filtro de palavras chave
-        //Falta opcao de carrreegar noticias do dia.
+
     }
 
-    public ArrayList retrieveFeed(String url) throws MalformedURLException, IOException, IOException, IllegalArgumentException, FeedException {
-        //String url = "http://www.valor.com.br/rss";
+    public ArrayList retrieveFeed(String url, SubjectDAO sDao) throws MalformedURLException, IOException, IOException, IllegalArgumentException, FeedException {
         SyndFeed feed = null;
         ArrayList<News> news = new ArrayList<>();
+        List<Subject> listaAsuntos = sDao.list();
         News n = new News();
         try {
             feed = new SyndFeedInput().build(new XmlReader(new URL(url)));
@@ -44,9 +45,16 @@ public class FeedReader {
         System.out.println(feed.getTitle());
         List<SyndEntry> entries = feed.getEntries();
         for (SyndEntry entry : entries) {
-            n.setTitle(entry.getTitle());
-            n.setTitle(entry.getLink());
-            news.add(n);
+            for (Subject s : listaAsuntos) {
+                if (entry.getTitle().contains(s.getSubject())) {
+                    n.setTitle(entry.getTitle());
+                    n.setTitle(entry.getLink());
+                    news.add(n);
+                    n = new News();
+                    break;
+                }
+            }
+
             System.out.println(entry.getTitle());
             System.out.println(entry.getDescription().getValue());
             System.out.println(entry.getLink());
@@ -54,5 +62,11 @@ public class FeedReader {
         }
         //return array de noticias
         return news;
+    }
+
+    public void saveNews(ArrayList listaNoticias, NewsDAO nDao) {
+        for (Object noticia : listaNoticias) {
+            nDao.insert((News) noticia);
+        }
     }
 }
