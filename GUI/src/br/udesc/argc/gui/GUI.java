@@ -18,7 +18,6 @@ public class GUI {
     public static void main(String[] args) {
         WindowControl wc = new WindowControl();
         wc.run();
-       
     }
     
 }

@@ -18,5 +18,7 @@ public interface NewsDAO {
     public void insert(News object);
 
     public List<News> list();
+    
+    public News getLastNewsFromFeed(int id);
 
 }

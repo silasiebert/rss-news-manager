@@ -11,7 +11,10 @@ import br.udesc.argc.persistence.utils.SQLiteJDBC;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,8 +30,9 @@ public class JDBCNewsDAO implements NewsDAO {
         try {
             c = SQLiteJDBC.getConnection();
             stmt = c.createStatement();
-            String sql = "INSERT INTO NEWS (url, title) "
-                    + "VALUES ('" + object.getUrl() + "', '" + object.getTitle() + "');";
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            String sql = "INSERT INTO NEWS (url, title, feed, date) "
+                    + "VALUES ('" + object.getUrl() + "', '" + object.getTitle() + "', " + object.getFeed() + ", '" + sdf.format(object.getDate()) + "');";
             stmt.executeUpdate(sql);
             stmt.close();
 
@@ -51,15 +55,54 @@ public class JDBCNewsDAO implements NewsDAO {
                 int id = rs.getInt("id");
                 String url = rs.getString("url");
                 String title = rs.getString("title");
-                News neww = new News();
-                neww.setId(id);
-                neww.setUrl(url);
-                neww.setTitle(title);
-                news.add(neww);
+                int feed = rs.getInt("feed");
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                Date date = df.parse(rs.getString("date"));
+                News n = new News();
+                n.setId(id);
+                n.setUrl(url);
+                n.setFeed(feed);
+                n.setTitle(title);
+                n.setDate(date);
+                news.add(n);
             }
             rs.close();
             stmt.close();
             return news;
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            return null;
+        }
+
+    }
+
+    @Override
+    public News getLastNewsFromFeed(int id) {
+        Connection c = SQLiteJDBC.getConnection();
+        Statement stmt = null;
+        News n = null;
+        try {
+            c = SQLiteJDBC.getConnection();
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM news WHERE id = ("
+                    + "select max(id) from news where feed = " + id + ");");
+            while (rs.next()) {
+                int i = rs.getInt("id");
+                String url = rs.getString("url");
+                String title = rs.getString("title");
+                int feed = rs.getInt("feed");
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                Date date = df.parse(rs.getString("date"));
+                n = new News();
+                n.setId(i);
+                n.setUrl(url);
+                n.setFeed(feed);
+                n.setTitle(title);
+                n.setDate(date);
+            }
+            rs.close();
+            stmt.close();
+            return n;
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             return null;

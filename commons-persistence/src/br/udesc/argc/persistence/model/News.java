@@ -1,5 +1,7 @@
 package br.udesc.argc.persistence.model;
 
+import java.util.Date;
+
 /**
  * @author gabrielnaoto
  * @version 1.0
@@ -10,6 +12,8 @@ public class News {
     private int id;
     private String url;
     private String title;
+    private int feed;
+    private Date date;
 
     public News() {
 
@@ -38,6 +42,29 @@ public class News {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public int getFeed() {
+        return feed;
+    }
+
+    public void setFeed(int feed) {
+        this.feed = feed;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "News{" + "id=" + id + ", url=" + url + ", title=" + title + ", feed=" + feed + ", date=" + date + '}';
+    }
+    
+    
 
     public void finalize() throws Throwable {
 
