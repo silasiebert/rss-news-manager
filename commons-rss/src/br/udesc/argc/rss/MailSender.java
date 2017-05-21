@@ -23,6 +23,16 @@ import javax.mail.internet.MimeMessage;
  */
 public class MailSender {
 
+    private final String fromEmail;
+    private final String toEmail;
+    private final String password;
+
+    public MailSender(String fromEmail, String toEmail, String password) {
+        this.fromEmail = fromEmail;
+        this.toEmail = toEmail;
+        this.password = password;
+    }
+
     /**
      *
      * @param fromEmail
@@ -33,7 +43,7 @@ public class MailSender {
      * @throws MessagingException
      * @throws UnsupportedEncodingException
      */
-    public void sendMail(String fromEmail, String toEmail, String password, String assuntoEmail, String corpoEmail) throws MessagingException, UnsupportedEncodingException {
+    public void sendMail(String assuntoEmail, String corpoEmail) throws MessagingException, UnsupportedEncodingException {
 
         System.out.println("TLSEmail Start");
         Properties props = new Properties();
@@ -62,7 +72,7 @@ public class MailSender {
                 "Content-Transfer-Encoding", "8bit");
 
         msg.setFrom(
-                new InternetAddress(toEmail, "NoReply-JD"));
+                new InternetAddress(toEmail, "NoReply-RSSManager"));
 
         msg.setReplyTo(InternetAddress.parse(toEmail, false));
 
