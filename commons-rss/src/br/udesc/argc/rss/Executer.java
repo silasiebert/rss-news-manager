@@ -8,19 +8,13 @@ package br.udesc.argc.rss;
 import com.rometools.rome.io.FeedException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import javax.mail.MessagingException;
 
 /**
  *
  * @author silajs
  */
-public class Executer {
+public interface Executer {
 
-    private FeedReader feedReader;
-    private MailSender mailsSender;
-
-    public Executer() throws IOException, MalformedURLException, IllegalArgumentException, FeedException {
-        this.feedReader = new FeedReader();
-        this.mailsSender = new MailSender();
-    }
-
+    public void execute() throws IOException, MalformedURLException, IllegalArgumentException, FeedException, MessagingException;
 }
