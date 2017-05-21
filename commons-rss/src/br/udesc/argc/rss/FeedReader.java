@@ -28,10 +28,6 @@ import java.util.logging.Logger;
  */
 public class FeedReader {
 
-    public FeedReader() throws MalformedURLException, IOException, IllegalArgumentException, FeedException {
-
-    }
-
     public ArrayList retrieveFeed(String url, SubjectDAO sDao) throws MalformedURLException, IOException, IOException, IllegalArgumentException, FeedException {
         SyndFeed feed = null;
         ArrayList<News> news = new ArrayList<>();
@@ -40,7 +36,7 @@ public class FeedReader {
         try {
             feed = new SyndFeedInput().build(new XmlReader(new URL(url)));
         } catch (FeedException ex) {
-            Logger.getLogger(FeedReader.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
         System.out.println(feed.getTitle());
         List<SyndEntry> entries = feed.getEntries();
