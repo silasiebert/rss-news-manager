@@ -5,6 +5,7 @@
  */
 package br.udesc.argc.rss;
 
+import br.udesc.argc.persistence.dao.core.FactoryDAO;
 import br.udesc.argc.persistence.dao.core.NewsDAO;
 import br.udesc.argc.persistence.dao.core.SubjectDAO;
 import br.udesc.argc.persistence.model.News;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,7 +30,13 @@ import java.util.logging.Logger;
  */
 public class FeedReader {
 
-    public ArrayList retrieveFeed(String url, SubjectDAO sDao) throws MalformedURLException, IOException, IOException, IllegalArgumentException, FeedException {
+    private NewsDAO dao;
+
+    public FeedReader() {
+        this.dao = FactoryDAO.getPersistence().getNewsDAO();
+    }
+
+    public ArrayList retrieveFeed(String url, SubjectDAO sDao, int feedId) throws MalformedURLException, IOException, IOException, IllegalArgumentException, FeedException {
         SyndFeed feed = null;
         ArrayList<News> news = new ArrayList<>();
         List<Subject> listaAsuntos = sDao.list();
@@ -42,27 +50,36 @@ public class FeedReader {
         List<SyndEntry> entries = feed.getEntries();
         for (SyndEntry entry : entries) {
             for (Subject s : listaAsuntos) {
-                if (entry.getTitle().contains(s.getSubject())) {
+                if (entry.getTitle().toLowerCase().contains(s.getSubject().toLowerCase()) && validateDate(entry.getPublishedDate(), feedId)) {
                     n.setTitle(entry.getTitle());
-                    n.setTitle(entry.getLink());
+                    n.setUrl(entry.getLink());
+                    n.setDate(entry.getPublishedDate());
+                    n.setFeed(feedId);
                     news.add(n);
                     n = new News();
                     break;
                 }
             }
 
-            System.out.println(entry.getTitle());
-            System.out.println(entry.getDescription().getValue());
-            System.out.println(entry.getLink());
-            System.out.println(" ");
         }
         //return array de noticias
         return news;
     }
 
-    public void saveNews(ArrayList listaNoticias, NewsDAO nDao) {
-        for (Object noticia : listaNoticias) {
-            nDao.insert((News) noticia);
+    public void saveNews(ArrayList<News> listaNoticias, NewsDAO nDao) {
+        for (News noticia : listaNoticias) {
+            nDao.insert(noticia);
         }
+    }
+
+    public boolean validateDate(Date publishDate, int feedId) {
+        News lastNewsFromFeed = dao.getLastNewsFromFeed(feedId);
+        if (lastNewsFromFeed != null) {
+            if (publishDate.before(lastNewsFromFeed.getDate())) {
+                return false;
+            }
+        }
+        return true;
+
     }
 }
