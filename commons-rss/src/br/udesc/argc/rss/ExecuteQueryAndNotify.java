@@ -28,13 +28,20 @@ public class ExecuteQueryAndNotify implements Executer {
     @Override
     public void execute() throws IOException, MalformedURLException, IllegalArgumentException, FeedException, MessagingException {
         List<Feed> listaFeeds = fDao.list();
+        ArrayList<News> listaNoticias = new ArrayList<>();
+        ArrayList<News> noticiasDoFeed = null;
         for (Feed feed : listaFeeds) {
-
-            ArrayList listaNoticias = feedReader.retrieveFeed(feed.getUrl(), FactoryDAO.getPersistence().getSubjectDAO());
-            if (!listaNoticias.isEmpty()) {
-                feedReader.saveNews(listaNoticias, FactoryDAO.getPersistence().getNewsDAO());
-                bulkNSendNews(listaNoticias);
+            noticiasDoFeed = feedReader.retrieveFeed(feed.getUrl(), FactoryDAO.getPersistence().getSubjectDAO(), feed.getId());
+            if (!noticiasDoFeed.isEmpty()) {
+                System.out.println("Tem noticias neste feed!");
+                feedReader.saveNews(noticiasDoFeed, FactoryDAO.getPersistence().getNewsDAO());
+                listaNoticias.addAll(noticiasDoFeed);
+            } else {
+                System.out.println("Nao tem noticias neste feed!");
             }
+        }
+        if (!listaNoticias.isEmpty()) {
+            bulkNSendNews(listaNoticias);
         }
     }
 
