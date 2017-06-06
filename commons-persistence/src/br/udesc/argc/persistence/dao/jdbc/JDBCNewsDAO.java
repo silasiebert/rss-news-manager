@@ -35,11 +35,13 @@ public class JDBCNewsDAO implements NewsDAO {
                     + "VALUES ('" + object.getUrl() + "', '" + object.getTitle() + "', " + object.getFeed() + ", '" + sdf.format(object.getDate()) + "');";
             stmt.executeUpdate(sql);
             stmt.close();
-
+            System.out.println("Record created successfully");
         } catch (Exception e) {
+            System.out.println("Record not inserteded because");
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            e.printStackTrace();
         }
-        System.out.println("Record created successfully");
+
     }
 
     @Override

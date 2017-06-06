@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 import javax.mail.MessagingException;
 
-public class ExecuteQueryAndNotify implements Executer {
+public class ExecuteQueryAndNotify extends Executer {
 
     private FeedReader feedReader;
     private MailSender mailsSender;

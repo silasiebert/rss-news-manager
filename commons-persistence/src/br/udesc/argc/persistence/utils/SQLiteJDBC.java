@@ -50,9 +50,7 @@ public class SQLiteJDBC {
                     + "CREATE TABLE IF NOT EXISTS subject ( \n"
                     + "	subject varchar(50),\n"
                     + "	id integer PRIMARY KEY AUTOINCREMENT\n"
-                    + ");\n"
-
-            ;
+                    + ");\n";
             stmt.executeUpdate(sql);
             System.out.println("Table created successfully");
         } catch (Exception e) {
