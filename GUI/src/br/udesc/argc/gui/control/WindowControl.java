@@ -99,13 +99,13 @@ public class WindowControl {
                 try {
                     exe.execute();
                 } catch (IOException ex) {
-                    Logger.getLogger(WindowControl.class.getName()).log(Level.SEVERE, null, ex);
+                   ex.printStackTrace();
                 } catch (IllegalArgumentException ex) {
-                    Logger.getLogger(WindowControl.class.getName()).log(Level.SEVERE, null, ex);
+                   ex.printStackTrace();
                 } catch (FeedException ex) {
-                    Logger.getLogger(WindowControl.class.getName()).log(Level.SEVERE, null, ex);
+                   ex.printStackTrace();
                 } catch (MessagingException ex) {
-                    Logger.getLogger(WindowControl.class.getName()).log(Level.SEVERE, null, ex);
+                   ex.printStackTrace();
                 }
                 JOptionPane.showMessageDialog(window, "All done!");
                 unscheduler = "awaiting";

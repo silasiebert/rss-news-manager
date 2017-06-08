@@ -21,7 +21,7 @@ public class ExecuteQueryAndNotify extends Executer {
 
     public ExecuteQueryAndNotify() throws IOException, MalformedURLException, IllegalArgumentException, FeedException {
         this.feedReader = new FeedReader();
-        this.mailsSender = new MailSender("rssnewsfeedmanager", "sila.siebert@gmail.com", "36FhZuNXm3H2");
+        this.mailsSender = new MailSender();
         this.fDao = FactoryDAO.getPersistence().getFeedDAO();
     }
 

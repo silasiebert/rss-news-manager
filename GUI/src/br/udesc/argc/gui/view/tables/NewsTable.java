@@ -8,6 +8,7 @@ package br.udesc.argc.gui.view.tables;
 import br.udesc.argc.persistence.dao.core.FactoryDAO;
 import br.udesc.argc.persistence.dao.core.NewsDAO;
 import br.udesc.argc.persistence.model.News;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -32,7 +33,7 @@ public class NewsTable extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -40,12 +41,16 @@ public class NewsTable extends AbstractTableModel {
         News s = news.get(rowIndex);
         switch (columnIndex) {
             case 0: {
-                return s.getTitle();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm");
+                return sdf.format(s.getDate());
             }
             case 1: {
+                return s.getTitle();
+            }
+            case 2: {
                 return s.getUrl();
             }
-           
+
         }
         return null;
     }
@@ -53,11 +58,13 @@ public class NewsTable extends AbstractTableModel {
     @Override
     public String getColumnName(int column) {
         switch (column) {
-
             case 0: {
-                return "Title";
+                return "Date";
             }
             case 1: {
+                return "Title";
+            }
+            case 2: {
                 return "URL";
             }
 

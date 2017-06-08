@@ -5,9 +5,14 @@
  */
 package br.udesc.argc.rss;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -16,6 +21,9 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -23,14 +31,32 @@ import javax.mail.internet.MimeMessage;
  */
 public class MailSender {
 
-    private final String fromEmail;
-    private final String toEmail;
-    private final String password;
+    private String fromEmail;
+    private String toEmail;
+    private String password;
 
-    public MailSender(String fromEmail, String toEmail, String password) {
-        this.fromEmail = fromEmail;
-        this.toEmail = toEmail;
-        this.password = password;
+    public MailSender() {
+        init();
+    }
+
+    public void init() {
+        try {
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(new FileReader("config_sender.json"));
+            JSONObject jsonObject = (JSONObject) obj;
+            fromEmail = (String) jsonObject.get("email");
+            password = (String) jsonObject.get("password");
+
+            obj = parser.parse(new FileReader("config_reciever.json"));
+            jsonObject = (JSONObject) obj;
+            toEmail = (String) jsonObject.get("email");
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -89,9 +115,10 @@ public class MailSender {
         System.out.println(
                 "Message is ready");
         Transport.send(msg);
-
+        System.out.println("sending from " + fromEmail);
+        System.out.println("sending to " + toEmail);
         System.out.println(
-                "EMail Sent Successfully!!");
+                "Email Sent Successfully!");
 
     }
 
