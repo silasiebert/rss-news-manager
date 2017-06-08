@@ -5,17 +5,34 @@
  */
 package br.udesc.argc.sheduler;
 
+import java.io.IOException;
+
 /**
  *
  * @author silajs
  */
-public class Sheduler {
+public class Scheduler extends AbstractScheduler {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    private Thread thread;
+    private Status s;
+
+    public Scheduler() throws Exception {
+        s = new Status();
+        this.thread = new Thread(new Checker(s));
+    }
+
+    @Override
+    public void start() {
+        thread.start();
+    }
+
+    @Override
+    public void stop() {
+        s.stop();
     }
 
 }
