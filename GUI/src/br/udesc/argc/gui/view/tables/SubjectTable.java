@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.udesc.argc.gui.view.models;
+package br.udesc.argc.gui.view.tables;
 
 import br.udesc.argc.persistence.dao.core.FactoryDAO;
-import br.udesc.argc.persistence.dao.core.ScheduleDAO;
-import br.udesc.argc.persistence.model.Schedule;
-import java.text.SimpleDateFormat;
+import br.udesc.argc.persistence.dao.core.SubjectDAO;
+import br.udesc.argc.persistence.model.Subject;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -16,19 +15,19 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author gabrielnaoto
  */
-public class ScheduleModel extends AbstractTableModel {
+public class SubjectTable extends AbstractTableModel {
 
-    private List<Schedule> schedules;
-    private ScheduleDAO dao;
+    private List<Subject> subjects;
+    private SubjectDAO dao;
 
-    public ScheduleModel() {
-        dao = FactoryDAO.getPersistence().getScheduleDAO();
-        schedules = dao.list();
+    public SubjectTable() {
+        dao = FactoryDAO.getPersistence().getSubjectDAO();
+        subjects = dao.list();
     }
 
     @Override
     public int getRowCount() {
-        return schedules.size();
+        return subjects.size();
     }
 
     @Override
@@ -38,14 +37,13 @@ public class ScheduleModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Schedule s = schedules.get(rowIndex);
+        Subject s = subjects.get(rowIndex);
         switch (columnIndex) {
             case 0: {
                 return s.getId();
             }
             case 1: {
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-                return sdf.format(s.getDate());
+                return s.getSubject();
             }
         }
         return null;
@@ -58,19 +56,19 @@ public class ScheduleModel extends AbstractTableModel {
                 return "ID";
             }
             case 1: {
-                return "Schedule";
+                return "Subject";
             }
 
         }
         return null;
     }
-
-    public Schedule getSchedule(int index) {
-        return schedules.get(index);
+    
+    public Subject getSubject(int index){
+        return subjects.get(index);
     }
-
-    public void update() {
-        schedules = dao.list();
+    
+    public void update(){
+        subjects = dao.list();
         fireTableDataChanged();
     }
 

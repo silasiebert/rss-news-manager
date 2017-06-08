@@ -39,6 +39,12 @@ public class Window extends javax.swing.JFrame {
         itemFeed = new javax.swing.JMenu();
         consultarNoticias = new javax.swing.JMenuItem();
         executarVerificacao = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        startService = new javax.swing.JMenuItem();
+        stopService = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        sendSettings = new javax.swing.JMenuItem();
+        recieveSettings = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("RSS Manager");
@@ -100,6 +106,26 @@ public class Window extends javax.swing.JFrame {
 
         jMenuBar1.add(itemFeed);
 
+        jMenu1.setText("Scheduler");
+
+        startService.setText("Start service");
+        jMenu1.add(startService);
+
+        stopService.setText("Stop service");
+        jMenu1.add(stopService);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Settings");
+
+        sendSettings.setText("E-mail sender");
+        jMenu2.add(sendSettings);
+
+        recieveSettings.setText("E-mail reciever");
+        jMenu2.add(recieveSettings);
+
+        jMenuBar1.add(jMenu2);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -133,9 +159,15 @@ public class Window extends javax.swing.JFrame {
     private javax.swing.JMenu itemConfiguracoes;
     private javax.swing.JMenu itemFeed;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     public javax.swing.JLabel labelStatus;
     public javax.swing.JProgressBar progressBar;
+    public javax.swing.JMenuItem recieveSettings;
+    public javax.swing.JMenuItem sendSettings;
+    public javax.swing.JMenuItem startService;
+    public javax.swing.JMenuItem stopService;
     // End of variables declaration//GEN-END:variables
 }

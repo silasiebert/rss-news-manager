@@ -6,7 +6,7 @@
 package br.udesc.argc.gui.control;
 
 import br.udesc.argc.gui.view.WindowFeed;
-import br.udesc.argc.gui.view.models.FeedModel;
+import br.udesc.argc.gui.view.tables.FeedTable;
 import br.udesc.argc.persistence.dao.core.FactoryDAO;
 import br.udesc.argc.persistence.dao.core.FeedDAO;
 import br.udesc.argc.persistence.model.Feed;
@@ -23,13 +23,13 @@ import javax.swing.JOptionPane;
 public class FeedControl {
     private WindowFeed wf;
     private FeedDetailControl fdc;
-    private FeedModel fd;
+    private FeedTable fd;
     private FeedDAO dao;
 
     public FeedControl() {
         wf = new WindowFeed();
         fdc = new FeedDetailControl();
-        fd = new FeedModel();
+        fd = new FeedTable();
         dao = FactoryDAO.getPersistence().getFeedDAO();
         init();
     }

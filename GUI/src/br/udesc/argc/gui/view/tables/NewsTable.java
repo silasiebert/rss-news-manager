@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.udesc.argc.gui.view.models;
+package br.udesc.argc.gui.view.tables;
 
 import br.udesc.argc.persistence.dao.core.FactoryDAO;
-import br.udesc.argc.persistence.dao.core.FeedDAO;
-import br.udesc.argc.persistence.model.Feed;
+import br.udesc.argc.persistence.dao.core.NewsDAO;
+import br.udesc.argc.persistence.model.News;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -15,39 +15,37 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author gabrielnaoto
  */
-public class FeedModel extends AbstractTableModel{
+public class NewsTable extends AbstractTableModel {
 
-    private List<Feed> feeds;
-    private FeedDAO dao;
+    private List<News> news;
+    private NewsDAO dao;
 
-    public FeedModel() {
-        dao = FactoryDAO.getPersistence().getFeedDAO();
-        feeds = dao.list();
+    public NewsTable() {
+        dao = FactoryDAO.getPersistence().getNewsDAO();
+        news = dao.list();
     }
 
     @Override
     public int getRowCount() {
-        return feeds.size();
+        return news.size();
     }
 
     @Override
     public int getColumnCount() {
-        return 3;
+        return 2;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Feed s = feeds.get(rowIndex);
+        News s = news.get(rowIndex);
         switch (columnIndex) {
             case 0: {
-                return s.getId();
+                return s.getTitle();
             }
             case 1: {
-                return s.getName();
-            }
-            case 2: {
                 return s.getUrl();
             }
+           
         }
         return null;
     }
@@ -55,13 +53,11 @@ public class FeedModel extends AbstractTableModel{
     @Override
     public String getColumnName(int column) {
         switch (column) {
+
             case 0: {
-                return "ID";
+                return "Title";
             }
             case 1: {
-                return "Name";
-            }
-            case 2: {
                 return "URL";
             }
 
@@ -69,12 +65,12 @@ public class FeedModel extends AbstractTableModel{
         return null;
     }
 
-    public Feed getFeed(int index) {
-        return feeds.get(index);
+    public News getNews(int index) {
+        return news.get(index);
     }
 
     public void update() {
-        feeds = dao.list();
+        news = dao.list();
         fireTableDataChanged();
     }
 

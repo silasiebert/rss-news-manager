@@ -24,14 +24,18 @@ import javax.swing.SwingWorker;
 public class WindowControl {
 
     private Window window;
+    private String scheduler;
+    private String unscheduler;
 
     public WindowControl() {
         window = new Window();
+        scheduler = "service stopped";
+        unscheduler = "awaiting";
         init();
     }
 
     private void init() {
-        window.labelStatus.setText("aguardando...");
+        print();
         window.configurarFeed.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -59,7 +63,6 @@ public class WindowControl {
             public void actionPerformed(ActionEvent e) {
                 NewsControl nc = new NewsControl();
                 nc.run();
-
             }
         });
 
@@ -82,7 +85,8 @@ public class WindowControl {
         window.executarVerificacao.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window.labelStatus.setText("verificando...");
+                unscheduler = "executing unscheduled query";
+                print();
                 w.execute();
                 Executer exe = Executer.getExecuter();
                 try {
@@ -96,15 +100,53 @@ public class WindowControl {
                 } catch (MessagingException ex) {
                     Logger.getLogger(WindowControl.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                JOptionPane.showMessageDialog(window, "Verificação concluída com sucesso!");
-                window.labelStatus.setText("aguardando...");
+                JOptionPane.showMessageDialog(window, "All done!");
+                unscheduler = "awaiting";
+                print();
                 window.progressBar.setValue(0);
+            }
+        });
+
+        window.startService.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                scheduler = "service started";
+                print();
+                JOptionPane.showMessageDialog(window, "started");
+            }
+        });
+
+        window.stopService.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                scheduler = "service stopped";
+                print();
+                JOptionPane.showMessageDialog(window, "stopped");
+            }
+        });
+
+        window.sendSettings.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                WindowEmailControl wec = new WindowEmailControl(false);
+                wec.run();
+            }
+        });
+
+        window.recieveSettings.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(window, "to be done");
             }
         });
     }
 
     public void run() {
         window.setVisible(true);
+    }
+    
+    public void print(){
+        window.labelStatus.setText(scheduler + " | " + unscheduler);
     }
 
 }

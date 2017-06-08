@@ -6,7 +6,7 @@
 package br.udesc.argc.gui.control;
 
 import br.udesc.argc.gui.view.WindowSubject;
-import br.udesc.argc.gui.view.models.SubjectModel;
+import br.udesc.argc.gui.view.tables.SubjectTable;
 import br.udesc.argc.persistence.dao.core.FactoryDAO;
 import br.udesc.argc.persistence.dao.core.SubjectDAO;
 import br.udesc.argc.persistence.model.Subject;
@@ -24,13 +24,13 @@ public class SubjectControl {
 
     private WindowSubject ws;
     private SubjectDetailControl sdc;
-    private SubjectModel sm;
+    private SubjectTable sm;
     private SubjectDAO dao;
 
     public SubjectControl() {
         ws = new WindowSubject();
         sdc = new SubjectDetailControl();
-        sm = new SubjectModel();
+        sm = new SubjectTable();
         dao = FactoryDAO.getPersistence().getSubjectDAO();
         init();
     }

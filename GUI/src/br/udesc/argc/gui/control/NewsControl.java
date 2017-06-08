@@ -7,7 +7,7 @@ package br.udesc.argc.gui.control;
 
 import br.udesc.argc.gui.Utils;
 import br.udesc.argc.gui.view.WindowNews;
-import br.udesc.argc.gui.view.models.NewsModel;
+import br.udesc.argc.gui.view.tables.NewsTable;
 import br.udesc.argc.persistence.dao.core.FactoryDAO;
 import br.udesc.argc.persistence.dao.core.NewsDAO;
 import java.awt.Component;
@@ -30,12 +30,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class NewsControl {
 
     private WindowNews wn;
-    private NewsModel nm;
+    private NewsTable nm;
     private NewsDAO dao;
 
     public NewsControl() {
         wn = new WindowNews();
-        nm = new NewsModel();
+        nm = new NewsTable();
         dao = FactoryDAO.getPersistence().getNewsDAO();
         init();
     }

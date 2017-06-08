@@ -6,7 +6,7 @@
 package br.udesc.argc.gui.control;
 
 import br.udesc.argc.gui.view.WindowScheduler;
-import br.udesc.argc.gui.view.models.ScheduleModel;
+import br.udesc.argc.gui.view.tables.ScheduleTable;
 import br.udesc.argc.persistence.dao.core.FactoryDAO;
 import br.udesc.argc.persistence.dao.core.ScheduleDAO;
 import br.udesc.argc.persistence.model.Schedule;
@@ -25,13 +25,13 @@ public class SchedulerControl {
 
     private WindowScheduler ws;
     private ScheduleDetailControl sdc;
-    private ScheduleModel sm;
+    private ScheduleTable sm;
     private ScheduleDAO dao;
 
     public SchedulerControl() {
         ws = new WindowScheduler();
         sdc = new ScheduleDetailControl();
-        sm = new ScheduleModel();
+        sm = new ScheduleTable();
         dao = FactoryDAO.getPersistence().getScheduleDAO();
         init();
     }
