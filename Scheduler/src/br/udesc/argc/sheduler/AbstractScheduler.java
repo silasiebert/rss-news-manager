@@ -15,7 +15,7 @@ public abstract class AbstractScheduler {
 
     public abstract void stop();
 
-    public AbstractScheduler getScheduler() {
+    public static AbstractScheduler getScheduler() {
         try {
             return new Scheduler();
         } catch (Exception ex) {

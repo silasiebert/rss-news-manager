@@ -16,3 +16,5 @@ hs_err_pid*
 /GUI/dist/
 /commons-rss/build/
 /commons-rss/dist/
+/Scheduler/build/
+/Scheduler/dist/

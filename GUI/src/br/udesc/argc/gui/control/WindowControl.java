@@ -7,6 +7,7 @@ package br.udesc.argc.gui.control;
 
 import br.udesc.argc.gui.view.Window;
 import br.udesc.argc.rss.Executer;
+import br.udesc.argc.sheduler.AbstractScheduler;
 import com.rometools.rome.io.FeedException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,11 +27,13 @@ public class WindowControl {
     private Window window;
     private String scheduler;
     private String unscheduler;
+    private AbstractScheduler as;
 
     public WindowControl() {
         window = new Window();
         scheduler = "service stopped";
         unscheduler = "awaiting";
+        as = AbstractScheduler.getScheduler();
         init();
     }
 
@@ -112,7 +115,8 @@ public class WindowControl {
             public void actionPerformed(ActionEvent e) {
                 scheduler = "service started";
                 print();
-                JOptionPane.showMessageDialog(window, "started");
+                as.start();
+                JOptionPane.showMessageDialog(window, "Service started");
             }
         });
 
@@ -121,7 +125,8 @@ public class WindowControl {
             public void actionPerformed(ActionEvent e) {
                 scheduler = "service stopped";
                 print();
-                JOptionPane.showMessageDialog(window, "stopped");
+                as.stop();
+                JOptionPane.showMessageDialog(window, "Service stopped");
             }
         });
 
