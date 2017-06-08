@@ -41,7 +41,7 @@ public class Checker implements Runnable {
                 //sleep de 1 minutos
 
                 if (s.isStopped()) {
-                    System.out.println("stopping");
+                    log.endLog();
                     break;
                 }
 
@@ -51,8 +51,7 @@ public class Checker implements Runnable {
                         log.logMessage("Query running...");
                     }
                 }
-                System.out.println("running");
-
+                log.logMessage("Running...");
                 Thread.sleep(60000);
             }
         } catch (Exception ex) {
