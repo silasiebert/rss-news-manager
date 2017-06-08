@@ -26,11 +26,9 @@ public class WindowEmailControl {
     private WindowEmail we;
     private String email;
     private String password;
-    private JSONParser parser;
 
     public WindowEmailControl(boolean setup) {
         we = new WindowEmail();
-        parser = new JSONParser();
         init();
         if (!setup) {
             load();
@@ -49,6 +47,7 @@ public class WindowEmailControl {
 
     public void load() {
         try {
+            JSONParser parser = new JSONParser();
             Object obj = parser.parse(new FileReader("config_sender.json"));
             JSONObject jsonObject = (JSONObject) obj;
             email = (String) jsonObject.get("email");
