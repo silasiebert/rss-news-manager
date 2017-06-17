@@ -86,8 +86,7 @@ public class JDBCNewsDAO implements NewsDAO {
         try {
             c = SQLiteJDBC.getConnection();
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM news WHERE id = ("
-                    + "select max(id) from news where feed = " + id + ");");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM news WHERE feed = " + id + " ORDER BY date DESC LIMIT 1;");
             while (rs.next()) {
                 int i = rs.getInt("id");
                 String url = rs.getString("url");
