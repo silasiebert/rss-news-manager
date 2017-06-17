@@ -75,7 +75,8 @@ public class FeedReader {
     public boolean newsIsNew(Date publishDate, int feedId) {
         News lastNewsFromFeed = dao.getLastNewsFromFeed(feedId);
         if (lastNewsFromFeed != null) {
-            if (publishDate.before(lastNewsFromFeed.getDate())) {
+            int dateIs = publishDate.compareTo(lastNewsFromFeed.getDate());
+            if (dateIs <= 0) {
                 return false;
             }
         }
