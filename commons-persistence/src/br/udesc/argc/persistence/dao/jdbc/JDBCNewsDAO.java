@@ -110,4 +110,29 @@ public class JDBCNewsDAO implements NewsDAO {
         }
     }
 
+    @Override
+    public boolean newsNotSavedYet(String title) {
+        Connection c = SQLiteJDBC.getConnection();
+        Statement stmt = null;
+        News n = null;
+        int i = 0;
+        try {
+            c = SQLiteJDBC.getConnection();
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT EXISTS(SELECT 1  FROM news   WHERE title ='" + title + "'  LIMIT 1)");
+            while (rs.next()) {
+                i = rs.getByte(1);
+            }
+            rs.close();
+            stmt.close();
+            if (i == 0) {
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            return false;
+        }
+    }
+
 }

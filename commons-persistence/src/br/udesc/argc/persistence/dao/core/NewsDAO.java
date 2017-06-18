@@ -20,5 +20,6 @@ public interface NewsDAO {
     public List<News> list();
     
     public News getLastNewsFromFeed(int id);
-
+    
+    public boolean newsNotSavedYet(String title);
 }
