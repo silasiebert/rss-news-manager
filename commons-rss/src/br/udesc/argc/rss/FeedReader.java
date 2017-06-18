@@ -50,8 +50,9 @@ public class FeedReader {
         List<SyndEntry> entries = feed.getEntries();
         for (SyndEntry entry : entries) {
             for (Subject s : listaAsuntos) {
-                if (entry.getTitle().toLowerCase().contains(s.getSubject().toLowerCase()) && newsIsNew(entry.getPublishedDate(), feedId)) {
-                    n.setTitle(entry.getTitle());
+                String title = entry.getTitle().replaceAll("'", "").replaceAll("‘", "");
+                if (entry.getTitle().toLowerCase().contains(s.getSubject().toLowerCase()) && dao.newsNotSavedYet(title)) {
+                    n.setTitle(title);
                     n.setUrl(entry.getLink());
                     n.setDate(newsValidDate(entry.getPublishedDate()));
                     n.setFeed(feedId);
@@ -74,6 +75,9 @@ public class FeedReader {
 
     public boolean newsIsNew(Date publishDate, int feedId) {
         News lastNewsFromFeed = dao.getLastNewsFromFeed(feedId);
+        if (publishDate == null) {
+            publishDate = new Date();
+        }
         if (lastNewsFromFeed != null) {
             int dateIs = publishDate.compareTo(lastNewsFromFeed.getDate());
             if (dateIs <= 0) {
